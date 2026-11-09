@@ -11,7 +11,7 @@ def index():
 def get_products():
     products_list = []
     try:
-        # Pobieranie produktów wyłącznie z zewnętrznego API
+       
         response = requests.get('https://fakestoreapi.com/products')
         if response.status_code == 200:
             api_data = response.json()
