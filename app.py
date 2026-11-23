@@ -11,7 +11,6 @@ def index():
 def get_products():
     products_list = []
     try:
-       
         response = requests.get('https://fakestoreapi.com/products')
         if response.status_code == 200:
             api_data = response.json()
@@ -27,11 +26,13 @@ def get_products():
                     category_pl = 'Inne'
 
                 products_list.append({
+                    "id": item['id'],
                     "name": item['title'],
-                    "price_pln": int(item['price'] * 4.5), # Przeliczenie na PLN
+                    "price_pln": int(item['price'] * 4.5),
                     "category": category_pl,
-                    "image": item['image'], # Bezpośredni link do zdjęcia z API
-                    "description": item['description']
+                    "image": item['image'],
+                    "description": item['description'],
+                    "rating": item['rating']
                 })
     except Exception as e:
         print("Błąd pobierania API:", e)
