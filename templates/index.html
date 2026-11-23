@@ -3,62 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>primore reps // luxury store</title>
+    <title>PRIMORE REPS // Streetwear & Luxury</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #fff; color: #000; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid #eee; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; }
-        .cart-btn { cursor: pointer; }
-        .status { text-align: center; font-size: 11px; color: #666; margin: 10px 0; letter-spacing: 1px; text-transform: uppercase; }
-        h1 { text-align: center; font-size: 14px; letter-spacing: 3px; margin: 20px 0; text-transform: uppercase; color: #111; }
-        .categories { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-        .cat-btn { background: #f1f1f1; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; font-size: 11px; text-transform: uppercase; transition: 0.2s; }
-        .cat-btn.active, .cat-btn:hover { background: #000; color: #fff; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; padding: 0 40px 60px 40px; max-width: 1400px; margin: 0 auto; }
-        .product-card { background: #f9f9f9; display: flex; flex-direction: column; align-items: center; padding: 20px; position: relative; }
-        .product-card img { width: 100%; height: 280px; object-fit: contain; background: #fff; margin-bottom: 15px; padding: 10px; box-sizing: border-box; }
-        .product-cat { font-size: 9px; text-transform: uppercase; color: #777; letter-spacing: 1px; margin-bottom: 5px; }
-        .product-name { font-size: 11px; font-weight: bold; text-transform: uppercase; text-align: center; margin-bottom: 8px; letter-spacing: 1px; }
-        .product-price { font-size: 12px; font-weight: bold; margin-bottom: 15px; }
-        .add-btn { background: #000; color: #fff; border: none; width: 100%; padding: 10px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; }
-        .add-btn:hover { background: #333; }
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background: #f8f9fa; color: #111; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Górny pasek nawigacji */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #fff; border-bottom: 1px solid #e5e5e5; position: sticky; top: 0; z-index: 100; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-box { background: #111; color: #fff; font-weight: 900; padding: 8px 12px; font-size: 13px; letter-spacing: 1px; }
+        .store-sub { font-size: 11px; color: #666; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+        
+        .nav-menu { display: flex; gap: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; color: #444; }
+        .nav-menu span { cursor: pointer; transition: color 0.2s; }
+        .nav-menu span:hover, .nav-menu span.active { color: #000; border-bottom: 2px solid #000; padding-bottom: 2px; }
+
+        .nav-actions { display: flex; gap: 15px; align-items: center; }
+        .action-badge { background: #f1f3f5; border: 1px solid #dee2e6; padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; text-transform: uppercase; }
+        .action-badge:hover { background: #e9ecef; }
+
+        .container { max-width: 1350px; margin: 0 auto; padding: 30px 20px; flex: 1; width: 100%; }
+
+        /* Banner kategorii */
+        .hero-banner { background: linear-gradient(135deg, #1e1e24 0%, #0d0d11 100%); color: #fff; border-radius: 10px; padding: 35px 40px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .hero-title { font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .hero-desc { font-size: 12px; color: #adb5bd; max-width: 600px; line-height: 1.5; }
+        .hero-stats { display: flex; gap: 30px; text-align: center; }
+        .stat-num { font-size: 18px; font-weight: 900; color: #fff; }
+        .stat-label { font-size: 10px; color: #adb5bd; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Pasek wyszukiwania i filtrowania */
+        .search-bar-box { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px 20px; display: flex; gap: 15px; align-items: center; margin-bottom: 30px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+        .search-input { flex: 1; border: none; outline: none; font-size: 13px; color: #333; }
+        .filter-pill { background: #f8f9fa; border: 1px solid #ced4da; padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .filter-pill.active { background: #111; color: #fff; border-color: #111; }
+
+        /* Siatka produktów */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .product-card { background: #fff; border: 1px solid #e9ecef; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; position: relative; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+
+        .card-top-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .product-cat-tag { font-size: 9px; font-weight: 800; text-transform: uppercase; color: #495057; background: #e9ecef; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.5px; }
+        .product-stock { font-size: 9px; font-weight: bold; color: #2b8a3e; display: flex; align-items: center; gap: 4px; }
+
+        .product-img-box { width: 100%; height: 210px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
+        .product-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        .product-name { font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; height: 32px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
+        .product-desc { font-size: 11px; color: #6c757d; margin-bottom: 12px; height: 32px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
+
+        .price-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f3f5; padding-top: 12px; margin-top: auto; }
+        .price-label { font-size: 9px; color: #adb5bd; text-transform: uppercase; font-weight: bold; }
+        .price-value { font-size: 14px; font-weight: 900; color: #111; }
+        
+        .buy-btn { background: #111; color: #fff; border: none; padding: 8px 14px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; cursor: pointer; letter-spacing: 0.5px; transition: background 0.2s; }
+        .buy-btn:hover { background: #333; }
+
+        /* Boczny panel koszyka i historii */
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 300; justify-content: flex-end; }
+        .sidebar-overlay.open { display: flex; }
+        .sidebar { background: #fff; width: 100%; max-width: 400px; height: 100%; display: flex; flex-direction: column; padding: 30px; box-shadow: -5px 0 25px rgba(0,0,0,0.1); transform: translateX(100%); transition: transform 0.3s ease; }
+        .sidebar-overlay.open .sidebar { transform: translateX(0); }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px; }
+        .sidebar-title { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+        .close-sidebar { font-size: 22px; cursor: pointer; font-weight: bold; }
+        .sidebar-content { flex: 1; overflow-y: auto; }
+        .sidebar-footer { border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px; }
+        .cart-total { display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; }
+        
+        .cart-item, .history-item { display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #f5f5f5; padding: 12px 0; font-size: 11px; }
+        .cart-item img, .history-item img { width: 50px; height: 50px; object-fit: contain; background: #fafafa; padding: 5px; border-radius: 4px; }
+        .remove-item { color: #e63946; cursor: pointer; font-size: 10px; margin-top: 4px; display: inline-block; text-transform: uppercase; font-weight: bold; }
+
+        /* Modal szczegółów */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background: #fff; max-width: 650px; width: 100%; padding: 30px; border-radius: 8px; position: relative; max-height: 85vh; overflow-y: auto; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 20px; cursor: pointer; font-weight: bold; }
+        .modal-product { display: flex; gap: 25px; flex-wrap: wrap; }
+        .modal-product img { width: 220px; height: 220px; object-fit: contain; margin: 0 auto; }
+
+        /* Nowa stopka e-commerce (Footer) */
+        footer { background: #111; color: #fff; padding: 50px 20px 30px; margin-top: 60px; font-size: 12px; }
+        .footer-container { max-width: 1350px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; color: #fff; }
+        .footer-col p, .footer-col ul { color: #adb5bd; line-height: 1.6; margin: 0; padding: 0; list-style: none; }
+        .footer-col ul li { margin-bottom: 8px; }
+        .footer-col ul li a { color: #adb5bd; text-decoration: none; transition: color 0.2s; }
+        .footer-col ul li a:hover { color: #fff; }
+        .newsletter-input { width: 100%; padding: 10px; background: #212529; border: 1px solid #343a40; color: #fff; border-radius: 4px; margin-bottom: 10px; font-size: 11px; outline: none; }
+        .newsletter-btn { background: #fff; color: #111; border: none; padding: 8px 14px; font-size: 10px; font-weight: bold; text-transform: uppercase; border-radius: 4px; cursor: pointer; width: 100%; }
+        .newsletter-btn:hover { background: #e9ecef; }
+        .footer-bottom { max-width: 1350px; margin: 0 auto; border-top: 1px solid #212529; padding-top: 20px; display: flex; justify-content: space-between; align-items: center; color: #6c757d; font-size: 11px; flex-wrap: wrap; gap: 10px; }
     </style>
 </head>
 <body>
 
+    <!-- Górny pasek nawigacji -->
     <header>
-        <div>Primore Reps</div>
-        <div class="cart-btn" onclick="toggleCart()">Koszyk (<span id="cart-count">0</span>)</div>
+        <div class="logo-area">
+            <div class="logo-box">PR</div>
+            <div>
+                <div style="font-weight: 900; font-size: 14px; letter-spacing: 1px; text-transform: uppercase;">Primore Reps</div>
+                <div class="store-sub">Streetwear & Luxury Store</div>
+            </div>
+        </div>
+        
+        <div class="nav-menu">
+            <span class="active" onclick="filterCategory('Wszystkie', this)">Wszystkie</span>
+            <span onclick="filterCategory('Odzież', this)">Odzież</span>
+            <span onclick="filterCategory('Biżuteria', this)">Biżuteria</span>
+            <span onclick="filterCategory('Elektronika', this)">Elektronika</span>
+        </div>
+
+        <div class="nav-actions">
+            <div class="action-badge" onclick="openSidebar('history')">
+                <span>🕒 Historia</span> (<span id="history-count">0</span>)
+            </div>
+            <div class="action-badge" onclick="openSidebar('cart')" style="background: #111; color: #fff; border-color: #111;">
+                <span>🛒 Koszyk</span> (<span id="cart-count">0</span>)
+            </div>
+        </div>
     </header>
 
-    <div class="status" id="backend-status">Pobieranie produktów z API...</div>
-    
-    <h1>New Arrivals // Collection</h1>
+    <div class="container">
+        <!-- Banner główny -->
+        <div class="hero-banner">
+            <div>
+                <div class="hero-title" id="banner-title">Kategoria: Wszystkie</div>
+                <div class="hero-desc">Najwyższej jakości wyselekcjonowane dropy streetwearowe, odzież, akcesoria oraz gadżety z ekspresową wysyłką 24h.</div>
+            </div>
+            <div class="hero-stats">
+                <div>
+                    <div class="stat-num" id="total-count">0</div>
+                    <div class="stat-label">Produktów</div>
+                </div>
+                <div>
+                    <div class="stat-num">24h</div>
+                    <div class="stat-label">Wysyłka</div>
+                </div>
+            </div>
+        </div>
 
-    <div class="categories">
-        <button class="cat-btn active" onclick="filterProducts('Wszystkie', this)">Wszystkie</button>
-        <button class="cat-btn" onclick="filterProducts('Odzież', this)">Odzież</button>
-        <button class="cat-btn" onclick="filterProducts('Biżuteria', this)">Biżuteria</button>
-        <button class="cat-btn" onclick="filterProducts('Elektronika', this)">Elektronika</button>
-        <button class="cat-btn" onclick="filterProducts('Inne', this)">Inne</button>
+        <!-- Pasek wyszukiwania -->
+        <div class="search-bar-box">
+            <span style="color: #adb5bd;">🔍</span>
+            <input type="text" id="search-input" class="search-input" placeholder="Szukaj produktów po nazwie (np. Hoodie, Tee, Silver)..." oninput="handleSearch()">
+            <button class="filter-pill active" id="pill-all" onclick="filterCategory('Wszystkie', null)">Wszystkie</button>
+            <button class="filter-pill" onclick="filterCategory('Odzież', null)">Odzież</button>
+            <button class="filter-pill" onclick="filterCategory('Biżuteria', null)">Biżuteria</button>
+        </div>
+
+        <!-- Siatka produktów -->
+        <div class="grid" id="product-grid"></div>
     </div>
 
-    <div class="grid" id="product-grid"></div>
+    <!-- Stopka e-commerce (Footer) -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>O Primore Reps</h4>
+                <p>Nowoczesna platforma e-commerce z wyselekcjonowanymi produktami najwyższej jakości. Stawiamy na minimalizm, styl i szybką realizację zamówień.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Szybkie linki</h4>
+                <ul>
+                    <li><a href="#" onclick="filterCategory('Wszystkie', null); return false;">Wszystkie produkty</a></li>
+                    <li><a href="#" onclick="filterCategory('Odzież', null); return false;">Odzież i akcesoria</a></li>
+                    <li><a href="#" onclick="filterCategory('Biżuteria', null); return false;">Biżuteria</a></li>
+                    <li><a href="#" onclick="openSidebar('cart'); return false;">Twój koszyk</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Obsługa klienta</h4>
+                <ul>
+                    <li><a href="#">Status zamówienia</a></li>
+                    <li><a href="#">Dostawa i płatności</a></li>
+                    <li><a href="#">Zwroty i reklamacje</a></li>
+                    <li><a href="#">Poliscy prywatności</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p style="margin-bottom: 10px;">Zapisz się, aby otrzymywać informacje o nowych dropach i rabatach.</p>
+                <input type="email" class="newsletter-input" placeholder="Twój adres e-mail...">
+                <button class="newsletter-btn" onclick="alert('Dziękujemy za zapisanie do newslettera!')">Zapisz się</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>&copy; 2026 Primore Reps. Wszelkie prawa zastrzeżone.</div>
+            <div style="display: flex; gap: 15px;">
+                <a href="#" style="color: #6c757d; text-decoration: none;">Regulamin</a>
+                <a href="#" style="color: #6c757d; text-decoration: none;">Polityka Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal szczegółów -->
+    <div class="modal-overlay" id="product-modal" onclick="closeModal('product-modal', event)">
+        <div class="modal-box">
+            <span class="close-modal" onclick="document.getElementById('product-modal').classList.remove('open')">&times;</span>
+            <div id="modal-product-content"></div>
+        </div>
+    </div>
+
+    <!-- Boczny panel (Koszyk / Historia) -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebarOnOutside(event)">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title" id="sidebar-title-text">Koszyk</div>
+                <div class="close-sidebar" onclick="closeSidebar()">&times;</div>
+            </div>
+            <div class="sidebar-content" id="sidebar-body-content"></div>
+            <div class="sidebar-footer" id="sidebar-footer-box" style="display: none;">
+                <div class="cart-total">
+                    <span>Razem:</span>
+                    <span id="cart-total-price">0 ZŁ</span>
+                </div>
+                <button class="buy-btn" style="width: 100%; padding: 12px; font-size: 11px;" onclick="checkout()">Przejdź do kasy</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         let allProducts = [];
         let cart = [];
+        let viewHistory = JSON.parse(localStorage.getItem('primore_history')) || [];
+        let currentCategory = 'Wszystkie';
+
+        updateHistoryCount();
 
         async function fetchProducts() {
             try {
                 const response = await fetch('/api/products');
                 const data = await response.json();
                 allProducts = data;
-                
-                document.getElementById('backend-status').innerText = "Status: Załadowano produkty z zewnętrznego API";
+                document.getElementById('total-count').innerText = allProducts.length;
                 displayProducts(allProducts);
             } catch (error) {
-                document.getElementById('backend-status').innerText = "Błąd połączenia z backendem!";
-                console.error("Błąd:", error);
+                console.error("Błąd pobierania:", error);
             }
         }
 
@@ -66,44 +250,199 @@
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
 
+            if (products.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; color:#888;">Brak produktów spełniających kryteria.</div>';
+                return;
+            }
+
             products.forEach(p => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
+                card.onclick = (e) => {
+                    if (!e.target.classList.contains('buy-btn')) {
+                        openProductDetails(p);
+                    }
+                };
+
                 card.innerHTML = `
-                    <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x280?text=Brak+Zdjecia'">
-                    <div class="product-cat">${p.category}</div>
-                    <div class="product-name">${p.name}</div>
-                    <div class="product-price">${p.price_pln} ZŁ</div>
-                    <button class="add-btn" onclick="addToCart('${p.name}', ${p.price_pln})">Dodaj do koszyka</button>
+                    <div>
+                        <div class="card-top-info">
+                            <span class="product-cat-tag">${p.category}</span>
+                            <span class="product-stock">✔ W magazynie</span>
+                        </div>
+                        <div class="product-img-box">
+                            <img src="${p.image}" alt="${p.name}">
+                        </div>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-desc">${p.description}</div>
+                    </div>
+                    <div class="price-row">
+                        <div>
+                            <div class="price-label">Cena </div>
+                            <div class="price-value">${p.price_pln} ZŁ</div>
+                        </div>
+                        <button class="buy-btn" onclick="addToCart(${p.id})">Do koszyka</button>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        function filterProducts(category, btn) {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        function filterCategory(cat, element) {
+            currentCategory = cat;
+            document.getElementById('banner-title').innerText = `Kategoria: ${cat}`;
+            
+            document.querySelectorAll('.nav-menu span').forEach(s => s.classList.remove('active'));
+            if (element) element.classList.add('active');
 
-            if (category === 'Wszystkie') {
-                displayProducts(allProducts);
-            } else {
-                const filtered = allProducts.filter(p => p.category.toLowerCase() === category.toLowerCase());
-                displayProducts(filtered);
-            }
+            document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+            if (cat === 'Wszystkie') document.getElementById('pill-all').classList.add('active');
+
+            applyFilters();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function addToCart(name, price) {
-            cart.push({ name, price });
+        function handleSearch() {
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            let filtered = allProducts;
+
+            if (currentCategory !== 'Wszystkie') {
+                filtered = filtered.filter(p => p.category.toLowerCase() === currentCategory.toLowerCase());
+            }
+
+            if (query.trim() !== '') {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));
+            }
+
+            displayProducts(filtered);
+        }
+
+        function openProductDetails(product) {
+            addToHistory(product, 'Obejrzano');
+            document.getElementById('modal-product-content').innerHTML = `
+                <div class="modal-product">
+                    <img src="${product.image}" alt="${product.name}">
+                    <div style="flex:1; min-width: 240px;">
+                        <span class="product-cat-tag">${product.category}</span>
+                        <h2 style="font-size:16px; margin: 10px 0;">${product.name}</h2>
+                        <div style="font-size:18px; font-weight:900; margin-bottom:15px;">${product.price_pln} ZŁ</div>
+                        <p style="font-size:12px; color:#555; line-height:1.6; margin-bottom:20px;">${product.description}</p>
+                        <button class="buy-btn" style="width:100%; padding: 12px;" onclick="addToCart(${product.id}); document.getElementById('product-modal').classList.remove('open')">Dodaj do koszyka</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('product-modal').classList.add('open');
+        }
+
+        function addToCart(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+            cart.push(product);
             document.getElementById('cart-count').innerText = cart.length;
+            addToHistory(product, 'Dodano do koszyka');
+            openSidebar('cart');
         }
 
-        function toggleCart() {
-            if(cart.length === 0) {
-                alert("Twój koszyk jest pusty.");
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            document.getElementById('cart-count').innerText = cart.length;
+            renderCartContent();
+        }
+
+        function openSidebar(type) {
+            const overlay = document.getElementById('sidebar-overlay');
+            const titleText = document.getElementById('sidebar-title-text');
+            const footerBox = document.getElementById('sidebar-footer-box');
+
+            if (type === 'cart') {
+                titleText.innerText = `Twój Koszyk (${cart.length})`;
+                footerBox.style.display = 'block';
+                renderCartContent();
             } else {
-                let itemsList = cart.map(item => `${item.name} - ${item.price} ZŁ`).join('\n');
-                alert("Zawartość koszyka:\n\n" + itemsList);
+                titleText.innerText = `Historia Aktywności (${viewHistory.length})`;
+                footerBox.style.display = 'none';
+                renderHistoryContent();
             }
+            overlay.classList.add('open');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar-overlay').classList.remove('open');
+        }
+
+        function closeSidebarOnOutside(e) {
+            if (e.target.id === 'sidebar-overlay') closeSidebar();
+        }
+
+        function renderCartContent() {
+            const body = document.getElementById('sidebar-body-content');
+            if (cart.length === 0) {
+                body.innerHTML = '<p style="font-size:12px; color:#777; text-align:center; margin-top:40px;">Twój koszyk jest pusty.</p>';
+                document.getElementById('sidebar-footer-box').style.display = 'none';
+                return;
+            }
+            document.getElementById('sidebar-footer-box').style.display = 'block';
+            let total = 0;
+
+            body.innerHTML = cart.map((item, index) => {
+                total += item.price_pln;
+                return `
+                    <div class="cart-item">
+                        <img src="${item.image}">
+                        <div style="flex:1;">
+                            <div style="font-weight:bold; margin-bottom:3px;">${item.name}</div>
+                            <div style="color:#111; font-weight:bold;">${item.price_pln} ZŁ</div>
+                            <span class="remove-item" onclick="removeFromCart(${index})">Usuń</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('cart-total-price').innerText = `${total} ZŁ`;
+        }
+
+        function renderHistoryContent() {
+            const body = document.getElementById('sidebar-body-content');
+            if (viewHistory.length === 0) {
+                body.innerHTML = '<p style="font-size:12px; color:#777; text-align:center; margin-top:40px;">Brak historii aktywności.</p>';
+            } else {
+                body.innerHTML = viewHistory.map(h => `
+                    <div class="history-item">
+                        <img src="${h.image}">
+                        <div style="flex:1;">
+                            <div style="font-weight:bold; margin-bottom:2px;">${h.name}</div>
+                            <div style="color:#777; font-size:10px;">${h.action} • ${h.time}</div>
+                        </div>
+                        <div style="font-weight:bold;">${h.price} ZŁ</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function addToHistory(product, action) {
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            viewHistory.unshift({ name: product.name, image: product.image, price: product.price_pln, action, time });
+            if (viewHistory.length > 15) viewHistory.pop();
+            localStorage.setItem('primore_history', JSON.stringify(viewHistory));
+            updateHistoryCount();
+        }
+
+        function updateHistoryCount() {
+            document.getElementById('history-count').innerText = viewHistory.length;
+        }
+
+        function checkout() {
+            alert("Dziękujemy za złożenie zamówienia w Primore Reps!");
+            cart = [];
+            document.getElementById('cart-count').innerText = 0;
+            closeSidebar();
+        }
+
+        function closeModal(id, e) {
+            if (e.target.id === id) document.getElementById(id).classList.remove('open');
         }
 
         fetchProducts();
